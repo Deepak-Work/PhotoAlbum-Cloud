@@ -1,21 +1,12 @@
 version: 0.2
-
 phases:
   install:
     runtime-versions:
-      nodejs: 14
-    commands:
-      - npm install
-  
-  pre_build:
-    commands:
-      - npm run test
-  
+      nodejs: 16
   build:
     commands:
-      - npm run build
-      - aws cloudformation package --template-file template.yml --s3-bucket ${S3_BUCKET} --output-template-file packaged.yml
-
+      - echo "Building Lambda functions..."
+      - zip -r lambda-deployment.zip .
 artifacts:
   files:
-    - packaged.yml
+    - lambda-deployment.zip
