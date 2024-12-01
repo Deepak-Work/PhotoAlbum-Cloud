@@ -25,7 +25,7 @@ os_client = OpenSearch(
 
 def lambda_handler(event, context):
 
-    if 'CodePipeline' in event:
+    if 'CodePipeline.job' in event:
         job_id = event['CodePipeline.job']['id']
         try:
             codepipeline.put_job_success_result(jobId=job_id)
