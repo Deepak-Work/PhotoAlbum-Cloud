@@ -3,9 +3,7 @@ import logging
 from botocore.exceptions import ClientError
 import json
 import base64
-from elasticsearch import Elasticsearch
 from opensearchpy import OpenSearch, RequestsHttpConnection
-from requests_aws4auth import AWS4Auth
 import os
 
 # Instantiate logger
