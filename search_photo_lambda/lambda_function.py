@@ -11,6 +11,8 @@ OPENSEARCH_PASSWORD = os.environ['OPENSEARCH_PASSWORD']
 
 LEX_ALIAS_ID = os.environ['BOT_ALIAS_ID']
 LEX_BOT_ID = os.environ['BOT_ID']
+codepipeline = boto3.client('codepipeline')
+
 
 
 os_client = OpenSearch(
@@ -22,6 +24,25 @@ os_client = OpenSearch(
 )
 
 def lambda_handler(event, context):
+
+    if 'CodePipeline' in event:
+        job_id = event['CodePipeline.job']['id']
+        try:
+            codepipeline.put_job_success_result(jobId=job_id)
+        except Exception as e:
+            codepipeline.put_job_failure_result(
+                jobId=job_id,
+                failureDetails={
+                    'type': 'JobFailed',
+                    'message': str(e)
+                }
+            )
+            logger.error(f"Error processing job {job_id}: {str(e)}")
+        return {
+            'statusCode': 200,
+            'body': json.dumps('Processed as part of CodePipeline')
+        }
+    
     query = event['queryStringParameters']['q']
     
     # Disambiguate query using Lex
