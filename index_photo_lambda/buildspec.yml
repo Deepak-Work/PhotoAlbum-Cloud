@@ -4,11 +4,11 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
-      - pip install -r requirements.txt -t ./package
+      - pip install -r ./requirements.txt -t ./package
   build:
     commands:
-      - cp lambda_function.py ./package/
-      - cd package && zip -r ../index-photo.zip .
+      - cp ./lambda_function.py ./package/
+      - cd ./package && zip -r ../index-photo.zip .
 artifacts:
   files:
     - index-photo.zip
