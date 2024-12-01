@@ -37,7 +37,6 @@ def lambda_handler(event, context):
                     'message': str(e)
                 }
             )
-            logger.error(f"Error processing job {job_id}: {str(e)}")
         return {
             'statusCode': 200,
             'body': json.dumps('Processed as part of CodePipeline')
